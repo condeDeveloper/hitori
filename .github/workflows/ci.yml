@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  testes:
+    name: testes (${{ matrix.so }}, node ${{ matrix.node }})
+    runs-on: ${{ matrix.so }}
+    strategy:
+      fail-fast: false
+      matrix:
+        so: [ubuntu-latest, windows-latest, macos-latest]
+        node: ['20', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # O `shell: bash` nao e enfeite: no PowerShell do runner o glob chega ao
+      # node como texto literal.
+      - name: "as regras e os numeros do README"
+        shell: bash
+        run: node --test testes/nucleo.test.js testes/medidas.test.js
+      - name: "o 6x6 pelos ramos, o 4x4 inteiro e o 14x14"
+        shell: bash
+        run: node --test testes/pesados.test.js
+
+  medidas:
+    name: tabelas do README
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: "as formas de 1x1 a 13x13"
+        run: node ferramentas/medidor.js formas
+      - name: "o maximo de pretas"
+        run: node ferramentas/medidor.js maximos
+      - name: "A x L contra L x A"
+        run: node ferramentas/medidor.js transpostas
+      - name: "os tres contadores"
+        run: node ferramentas/medidor.js juiz
+      - name: "os tabuleiros pequenos inteiros"
+        run: node ferramentas/medidor.js puzzles
+      - name: "o resolvedor contra o juiz, uma vez so"
+        run: node --test testes/juiz.test.js
