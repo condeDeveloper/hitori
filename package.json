@@ -1,0 +1,15 @@
+{
+  "name": "hitori",
+  "version": "1.0.0",
+  "description": "Hitori jogavel e as formas de toda solucao contadas ate 14x14: o maximo de pretas tem uma forma so no 3x3, no 5x5 e no 7x7, e no 9x9 sao 1.952",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test testes/*.test.js",
+    "medir": "node ferramentas/medidor.js"
+  }
+}
