@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hitori — as formas de toda solução</title>
+<meta name="description" content="Hitori jogavel e as formas de solucao contadas ate 14x14: o maximo de pretas tem uma forma so no 3x3, no 5x5 e no 7x7, e no 9x9 sao 1.952.">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<header>
+  <h1>Hitori</h1>
+  <p>Pinte casas de preto até que nenhum número se repita numa linha ou coluna entre as brancas. Duas pretas nunca se encostam pelo lado, e as brancas formam um pedaço só.</p>
+</header>
+
+<main>
+
+<section>
+  <h2>Jogue</h2>
+  <div class="painel">
+    <div class="linha" style="margin-bottom:16px">
+      <select id="tamanho" aria-label="tamanho">
+        <option value="5">5 × 5</option>
+        <option value="6" selected>6 × 6</option>
+        <option value="7">7 × 7</option>
+        <option value="8">8 × 8</option>
+      </select>
+      <button id="novo" type="button">Novo</button>
+      <button id="conferir" type="button">Conferir</button>
+      <button id="mostrar" type="button">Mostrar a solução</button>
+    </div>
+    <p class="fraco">Um clique pinta de preto, outro marca com um círculo (certeza de branca), outro limpa. Todo tabuleiro gerado aqui passou pelo resolvedor: tem solução, e só uma.</p>
+    <div id="tabuleiro"></div>
+    <p id="estado"></p>
+  </div>
+</section>
+
+<section>
+  <h2>O que a varredura respondeu</h2>
+
+  <h3>As formas de toda solução</h3>
+  <p>As regras 2 e 3 não olham os números. Então existe um conjunto de <strong>formas</strong>, as máscaras de pretas sem vizinhas e com as brancas ligadas, e toda solução de todo Hitori é uma delas. No 5 × 5 são 20.297; no 10 × 10, 208.786.414.361.204.882; no 14 × 14, um número de 34 algarismos. A contagem anda por matriz de transferência, casa a casa, guardando como as brancas da fronteira estão ligadas, e bate com a força bruta até o 5 × 5 e com uma busca por ramos até o 6 × 6.</p>
+
+  <h3>O máximo de pretas é único, até deixar de ser</h3>
+  <p>No 3 × 3 cabem no máximo 4 pretas, e só de um jeito. No 5 × 5, 9 pretas, de um jeito só. No 7 × 7, 17, de um jeito só. Parecia regra dos ímpares, e no <strong>9 × 9 o máximo de 27 pretas aparece em 1.952 formas</strong>.</p>
+
+  <h3>Quase todo tabuleiro pequeno não tem solução</h3>
+  <p>Dos 19.683 tabuleiros 3 × 3 com números de 1 a 3, só 8,05% têm solução única, e 80,67% não têm nenhuma. Num 4 × 4 em que cada linha é uma permutação, a solução única cai para 3,27%. E um quadrado latino, em que nada se repete, aceita todas as 562 formas: sem repetição não há o que pintar, e qualquer pintura vale.</p>
+</section>
+
+<section>
+  <h2>Como rodar</h2>
+  <p>Precisa de Node 20 ou mais novo. Sem dependência nenhuma.</p>
+  <pre><code>npm test          # a suíte inteira
+npm run medir     # as tabelas rápidas</code></pre>
+  <p>O código está em <a href="https://github.com/condeDeveloper/hitori">github.com/condeDeveloper/hitori</a>.</p>
+</section>
+
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
